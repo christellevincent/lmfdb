@@ -266,28 +266,12 @@ class AbvarFq_isoclass(object):
             return '\F_{' + '{0}'.format(self.q) + '}'
         else:
             return '\F_{' + '{0}^{1}'.format(self.q,s) + '}'
-    
-    #tofix
-    def is_endo_rational(self):
-        #this should work soon
-        #return self.geometric_extension_degree == 1
-        data = db.av_fq_endalg_factors.lookup(self.label)
-        return data == None
-
-    def endo_extensions(self):
-        #data = db.av_fq_endalg_factors.lucky({'label':self.label})
-        return  list(db.av_fq_endalg_factors.search({'base_label':self.label}))
-
-    
             
-      
-    #old
     def has_real_place(self):
         my_field = self.nf.split('.')
         real_places = int(my_field[1]) 
         return real_places > 0
     
-    #old
     def is_commutative(self):
         my_invs = self.brauer_invs.split(' ')
         for inv in my_invs:
@@ -297,7 +281,6 @@ class AbvarFq_isoclass(object):
                 return False
         return True
     
-    #old
     @property
     def needs_endo_table(self):
         if self.has_real_place() or self.is_commutative():
@@ -314,33 +297,31 @@ class AbvarFq_isoclass(object):
             if self.is_commutative():
                 ans = 'the number field ' + self.display_number_field() + '.'
             else:
-                ans = 'the division algebra over ' + self.display_number_field() + ' with the following ramification data at primes above {0}, and unramified at all archimedean primes:'.format(self.p)
+                ans = 'the division algebra over ' + self.display_number_field() + ' with the following ramification data at finite primes above {0}, and unramified at all archimedean primes:'.format(self.p)
         return ans
+
+    def endo_info(self,factor):
+        pass
     
     def decomp_length(self):
         return len(self.decomp)
     
     def primeideal_display(self,prime_ideal):
-        for i in range(len(prime_ideal)):
-            coeff = prime_ideal[i]
-            if coeff != '0':
-                
-        
-        if prime_ideal[0] == '0':
-            if prime_ideal[1] == '0':
-                ans = ''
-            else: ans = prime_ideal[1] + '\pi'
-        else:
-            ans = prime_ideal[0] + ' + ' + prime_ideal[1] + '\pi'
-        if len(prime_ideal) == 2:
+        ans = '($ {0} $'.format(self.p)
+        if prime_ideal == ['0']:
+            ans += ')'
             return ans
         else:
-            for i in range(2,len(prime_ideal)):
-                if not(prime_ideal[i] == '0'):
-                    if ans != '':
-                        ans += ' + '
-                ans += prime_ideal[i] + '\pi^{0}'.format(i)
-        return ans
+            ans += ',' + web_latex(coeff_to_poly(prime_ideal,'pi')) + ')'
+            return ans
+
+    def factor_display(self,factor):
+        return av_display_knowl(factor)
+    
+    def invariants_display(self):
+        invariants = self.brauer_invs.split(' ')
+        num_primes = len(invariants) // self.decomp_length()
+        return [(self.places[i], invariants[num_primes*i:num_primes*(i+1)]) for i in range(self.decomp_length())]
 
     def endo_info(self,factor):
         pass
