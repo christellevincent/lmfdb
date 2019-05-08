@@ -36,164 +36,91 @@ This isogeny class is {{KNOWL('av.fq.supersingular',title='supersingular')}}.
 </p>
 
 <img src="{{cl.newton_plot()}}" width="500" height="250">
-
-<table>
-    <tr><td>{{ KNOWL('av.fq.p_rank',title="$p$-rank") }}:</td><td>&nbsp;&nbsp;${{cl.p_rank}}$</td></tr>
-    <tr><td>{{KNOWL('lf.newton_slopes',title='Slopes')}}:</td><td>&nbsp;&nbsp;${{cl.display_slopes()}}$</td></tr>
-</table>
-
-
-
-<h2>Point counts</h2>
-
-<p>
-{% if cl.is_pp == 1 %}
-{% if cl.is_jac == 1 %}
-This isogeny class contains a {{KNOWL('ag.jacobian',title='Jacobian')}}, and hence is {{ KNOWL('av.princ_polarizable', title = 'principally polarizable')}}.
-{% elif cl.is_jac == -1 %}
-This isogeny class is {{ KNOWL('av.princ_polarizable', title = 'principally polarizable')}}, but does not contain a {{KNOWL('ag.jacobian',title='Jacobian')}}.
-{% else %}
-This isogeny class is {{KNOWL('av.princ_polarizable', title = 'principally polarizable')}}, but it is unknown whether it contains a {{KNOWL('ag.jacobian',title='Jacobian')}}.
-{% endif %}
-{% elif cl.is_pp == -1 %}
-This isogeny class is not {{KNOWL('av.princ_polarizable', title = 'principally polarizable')}}, and therefore does not contain a {{KNOWL('ag.jacobian',title='Jacobian')}}.
-{% elif cl.is_jac == -1 %}
-This isogeny class does not contain a {{KNOWL('ag.jacobian',title='Jacobian')}}, and it is unknown whether it is {{KNOWL('av.princ_polarizable', title = 'principally polarizable')}}.
-{% endif %}
-</p>
-
-<p>{{ KNOWL('ag.fq.point_counts',title="Point counts of the abelian variety") }}
-
-<table class = "ntdata">
-    <tr><td>$r$</td>
-        {% for r in range(1, cl.length_A_counts()+1) %}
-        <td class="center"> {{ r }} </td>
-        {% endfor %}
-    </tr>
-    <tr><td>$A(\F_{q^r})$</td>
-        {% for count in cl.A_counts %}
-        <td> {{ count }} </td>
-        {% endfor %}
-    </tr>
-</table>
-</p>
-
-<p>
-{% if cl.is_jac == 1 %}
-{{ KNOWL('av.fq.curve_point_counts',title="Point counts of the curve") }}
-{% else %}
-{{ KNOWL('av.fq.curve_point_counts',title="Point counts of the (virtual) curve") }}
-{% endif %}
-
-<table class = "ntdata">
-    <tr><td>$r$</td>
-        {% for r in range(1, cl.length_C_counts()+1) %}
-        <td class="center"> {{ r }} </td>
-        {% endfor %}
-    </tr>
-    <tr><td>$C(\F_{q^r})$</td>
-        {% for count in cl.C_counts %}
-        <td>{{ count }}</td>
-        {% endfor %}
-    </tr>
-</table>
-
-</p>
-{% if cl.is_simple() %}
-<h2>{{ KNOWL('av.decomposition',title="Decomposition") }} and {{ KNOWL ('ag.endomorphism_algebra', title="endomorphism algebra") }}</h2>
-
-<<<<<<< HEAD
-
-<h2>{{ KNOWL('av.decomposition',title="Decomposition") }} and {{ KNOWL ('ag.endomorphism_algebra', title="endomorphism algebra") }}</h2>
-
-{% if cl.is_simple() %}
-This is a {{ KNOWL('av.simple',title="simple") }} isogeny class. Its {{ KNOWL('g2c.jac_end_lattice',title="endomorphism lattice")}} is:
-
-{% if cl.is_endo_rational() %}
-<h4>Endomorphism algebra over ${{cl.field()}}$</h4>
-
-All endomorphisms are defined over ${{cl.field()}}$.
-
-{% else %}
-
-<h4>Endomorphism algebra over ${{cl.field()}}$</h4>
-
-All endomorphisms are defined over <b>say field here</b>.
-
-<h4>Endomorphism algebra over ${{cl.alg_clo_field()}}$</h4>
-
-<h4>Remainder of endomorphism lattice by field</h4>
-
-{% for extension in cl.endo_extensions() %}
-
-
-
-{% endfor %}
-
-
-{% endif %}
-
-{% else %}
-This isogeny class decomposes as {{cl.decompositioninfo|safe}}, and therefore its endomorphism algebra is a direct sum of the endomorphism algebras for each isotypic factor. The {{ KNOWL('g2c.jac_end_lattice',title="endomorphism lattice")}} for each factor is
-
-{% for factor in cl.simple_distinct %}
-
-{% endfor %}
-
-=======
-<p>
-This is a {{ KNOWL('av.simple',title="simple") }} isogeny class. Its endomorphism algebra over ${{cl.ext_field(1)}}$ is {{cl.simple_endo_info()|safe}}
-
-{% if cl.needs_endo_table == True %}
-{% for places, invariants in cl.invariants_display() %}
-<table class = "ntdata">
-    <tr><td>$v$</td>
-        {% for prime in places %}
-        <td class="center"> {{cl.primeideal_display(prime)}} </td>
-        {% endfor %}
-    </tr>
-    <tr><td>$\operatorname{inv}_v$</td>
-        {% for inv in invariants %}
-        <td class="center">${{inv}}$</td>
-        {% endfor %}
-    </tr>
-</table>
-{% endfor %}
-
-Here $\pi$ is a root of the characteristic polynomial of the Frobenius endomorphism.
-{% endif %}
-</p>
-
-{% else %}
-<h2>{{ KNOWL('av.decomposition',title="Decomposition") }}</h2>
-<p>
-This isogeny class decomposes as {{cl.decompositioninfo|safe}}. <!--Its endomorphism algebra is a direct sum of the endomorphism algebras for each isotypic factor, which are:
-
-{% for factor in cl.decomp %}
-{% if factor[1] == 1 %}
-<h4>{{cl.factor_display(factor[0])|safe}}</h4>
-
-#{{cl.endo_info(factor)|safe}}
-
-
-{% else %}
-<h4>{{cl.factor_display(factor[0])|safe}}<sup>{{factor[1]}}</sup></h4>
-
-{% endif %}
-{% endfor %}-->
->>>>>>> Displaying endomorphism algebra data for simple isogeny classes
-{% endif %}
-
-<h2>Base change</h2>
-
-<p>
-{% if cl.is_primitive() %}
-This is a {{ KNOWL('ag.primitive',title="primitive") }} isogeny class.
-{% else %}
-This isogeny class is not {{ KNOWL('ag.primitive',title="primitive") }}.  It is a {{ KNOWL('ag.base_change',title="base change") }} from the following isogeny classes over subfields of ${{cl.field()}}$.
-{{cl.basechangeinfo|safe}}
-{% endif %}
-</p>
-
-
-{% endblock %}
+    
+    <table>
+        <tr><td>{{ KNOWL('av.fq.p_rank',title="$p$-rank") }}:</td><td>&nbsp;&nbsp;${{cl.p_rank}}$</td></tr>
+        <tr><td>{{KNOWL('lf.newton_slopes',title='Slopes')}}:</td><td>&nbsp;&nbsp;${{cl.display_slopes()}}$</td></tr>
+    </table>
+    
+    
+    
+    <h2>Point counts</h2>
+    
+    <p>
+    {% if cl.is_pp == 1 %}
+    {% if cl.is_jac == 1 %}
+    This isogeny class contains a {{KNOWL('ag.jacobian',title='Jacobian')}}, and hence is {{ KNOWL('av.princ_polarizable', title = 'principally polarizable')}}.
+    {% elif cl.is_jac == -1 %}
+    This isogeny class is {{ KNOWL('av.princ_polarizable', title = 'principally polarizable')}}, but does not contain a {{KNOWL('ag.jacobian',title='Jacobian')}}.
+    {% else %}
+    This isogeny class is {{KNOWL('av.princ_polarizable', title = 'principally polarizable')}}, but it is unknown whether it contains a {{KNOWL('ag.jacobian',title='Jacobian')}}.
+    {% endif %}
+    {% elif cl.is_pp == -1 %}
+    This isogeny class is not {{KNOWL('av.princ_polarizable', title = 'principally polarizable')}}, and therefore does not contain a {{KNOWL('ag.jacobian',title='Jacobian')}}.
+    {% elif cl.is_jac == -1 %}
+    This isogeny class does not contain a {{KNOWL('ag.jacobian',title='Jacobian')}}, and it is unknown whether it is {{KNOWL('av.princ_polarizable', title = 'principally polarizable')}}.
+    {% endif %}
+    </p>
+    
+    <p>{{ KNOWL('ag.fq.point_counts',title="Point counts of the abelian variety") }}
+    
+    <table class = "ntdata">
+        <tr><td>$r$</td>
+            {% for r in range(1, cl.length_A_counts()+1) %}
+            <td class="center"> {{ r }} </td>
+            {% endfor %}
+        </tr>
+        <tr><td>$A(\F_{q^r})$</td>
+            {% for count in cl.A_counts %}
+            <td> {{ count }} </td>
+            {% endfor %}
+        </tr>
+    </table>
+    </p>
+    
+    <p>
+    {% if cl.is_jac == 1 %}
+    {{ KNOWL('av.fq.curve_point_counts',title="Point counts of the curve") }}
+    {% else %}
+    {{ KNOWL('av.fq.curve_point_counts',title="Point counts of the (virtual) curve") }}
+    {% endif %}
+    
+    <table class = "ntdata">
+        <tr><td>$r$</td>
+            {% for r in range(1, cl.length_C_counts()+1) %}
+            <td class="center"> {{ r }} </td>
+            {% endfor %}
+        </tr>
+        <tr><td>$C(\F_{q^r})$</td>
+            {% for count in cl.C_counts %}
+            <td>{{ count }}</td>
+            {% endfor %}
+        </tr>
+    </table>
+    
+    </p>
+    
+    <h2>{{ KNOWL('av.decomposition',title="Decomposition") }}</h2>
+    
+    <p>
+    {% if cl.is_simple() %}
+    This is a {{ KNOWL('av.simple',title="simple") }} isogeny class.
+    {% else %}
+    <blockquote>
+        {{cl.decompositioninfo|safe}}
+    </blockquote>
+    {% endif %}
+    </p>
+    
+    <h2>Base change</h2>
+    
+    <p>
+    {% if cl.is_primitive() %}
+    This is a {{ KNOWL('ag.primitive',title="primitive") }} isogeny class.
+    {% else %}
+    This isogeny class is not {{ KNOWL('ag.primitive',title="primitive") }}.  It is a {{ KNOWL('ag.base_change',title="base change") }} from the following isogeny classes over subfields of ${{cl.field()}}$.
+    {{cl.basechangeinfo|safe}}
+    {% endif %}
+    </p>
+    
+    {% endblock %}
