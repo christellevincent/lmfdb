@@ -100,17 +100,44 @@ This isogeny class is {{KNOWL('av.fq.supersingular',title='supersingular')}}.
     
     </p>
     
-    <h2>{{ KNOWL('av.decomposition',title="Decomposition") }}</h2>
     
-    <p>
+    <h2>{{ KNOWL('av.decomposition',title="Decomposition") }} and {{ KNOWL ('ag.endomorphism_algebra', title="endomorphism algebra") }}</h2>
+    
     {% if cl.is_simple() %}
-    This is a {{ KNOWL('av.simple',title="simple") }} isogeny class.
+    This is a {{ KNOWL('av.simple',title="simple") }} isogeny class. Its {{ KNOWL('g2c.jac_end_lattice',title="endomorphism lattice")}} is:
+    
+    {% if cl.is_endo_rational() %}
+    <h4>Endomorphism algebra over ${{cl.field()}}$</h4>
+    
+    All endomorphisms are defined over ${{cl.field()}}$.
+    
     {% else %}
-    <blockquote>
-        {{cl.decompositioninfo|safe}}
-    </blockquote>
+    
+    <h4>Endomorphism algebra over ${{cl.field()}}$</h4>
+    
+    All endomorphisms are defined over <b>say field here</b>.
+    
+    <h4>Endomorphism algebra over ${{cl.alg_clo_field()}}$</h4>
+    
+    <h4>Remainder of endomorphism lattice by field</h4>
+    
+    {% for extension in cl.endo_extensions() %}
+    
+    
+    
+    {% endfor %}
+    
+    
     {% endif %}
-    </p>
+    
+    {% else %}
+    This isogeny class decomposes as {{cl.decompositioninfo|safe}}, and therefore its endomorphism algebra is a direct sum of the endomorphism algebras for each isotypic factor. The {{ KNOWL('g2c.jac_end_lattice',title="endomorphism lattice")}} for each factor is
+    
+    {% for factor in cl.simple_distinct %}
+    
+    {% endfor %}
+    
+    {% endif %}
     
     <h2>Base change</h2>
     
@@ -122,5 +149,6 @@ This isogeny class is {{KNOWL('av.fq.supersingular',title='supersingular')}}.
     {{cl.basechangeinfo|safe}}
     {% endif %}
     </p>
+    
     
     {% endblock %}
