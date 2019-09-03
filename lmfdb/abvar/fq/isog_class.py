@@ -11,10 +11,12 @@ from lmfdb.app import app
 
 from sage.rings.all import Integer, QQ, RR
 from sage.plot.all import line, points, circle, Graphics
+from sage.misc import latex
 
-from lmfdb.utils import list_to_factored_poly_otherorder
-from lmfdb.number_fields.web_number_field import nf_display_knowl, field_pretty
-from lmfdb.galois_groups.transitive_group import group_display_knowl
+
+from lmfdb.utils import list_to_factored_poly_otherorder, coeff_to_poly, web_latex
+from lmfdb.WebNumberField import nf_display_knowl, field_pretty
+from lmfdb.transitive_group import group_display_knowl
 from lmfdb.abvar.fq.web_abvar import av_display_knowl, av_data#, av_knowl_guts
 
 logger = make_logger("abvarfq")
@@ -258,88 +260,6 @@ class AbvarFq_isoclass(object):
                 ans += av_display_knowl(factor[0]) + '<sup> {0} </sup>'.format(factor[1])
         return ans
     
-    def alg_clo_field(self):
-        return '\\overline{\F}_{' + '{0}'.format(self.q) + '}'
-            
-    def ext_field(self,s):
-        if s == 1:
-            return '\F_{' + '{0}'.format(self.q) + '}'
-        else:
-            return '\F_{' + '{0}^{1}'.format(self.q,s) + '}'
-    
-    #tofix
-    def is_endo_rational(self):
-        #this should work soon
-        #return self.geometric_extension_degree == 1
-        data = db.av_fq_endalg_factors.lookup(self.label)
-        return data == None
-
-    def endo_extensions(self):
-        #data = db.av_fq_endalg_factors.lucky({'label':self.label})
-        return  list(db.av_fq_endalg_factors.search({'base_label':self.label}))
-
-    
-            
-      
-    #old
-    def has_real_place(self):
-        my_field = self.nf.split('.')
-        real_places = int(my_field[1]) 
-        return real_places > 0
-    
-    #old
-    def is_commutative(self):
-        my_invs = self.brauer_invs.split(' ')
-        for inv in my_invs:
-            if inv == '0':
-                continue
-            else:
-                return False
-        return True
-    
-    #old
-    @property
-    def needs_endo_table(self):
-        if self.has_real_place() or self.is_commutative():
-            return False
-        else:
-            return True
-    
-    def simple_endo_info(self):
-        if self.nf == '1.1.1.1':
-            ans = 'the quaternion division algebra over ' +  self.display_number_field() + ' ramified at {0} and $\infty$. All ${1}$-endomorphisms are already defined over ${2}$.'.format(self.p,self.alg_clo_field(),self.ext_field(1))
-        elif self.has_real_place():
-            ans = 'the division algebra over ' + self.display_number_field() + ' ramified at both real infinite places. <br>The geometric endomorphism algebra is $M_2(E)$ where $E$ is the quaternion division algebra over $\\Q$ ramified at {2} and $\infty$. All ${0}$-endomorphisms are defined over ${1}$. '.format(self.alg_clo_field(),self.ext_field(2),self.p)
-        else:
-            if self.is_commutative():
-                ans = 'the number field ' + self.display_number_field() + '.'
-            else:
-                ans = 'the division algebra over ' + self.display_number_field() + ' with the following ramification data at primes above {0}, and unramified at all archimedean primes:'.format(self.p)
-        return ans
-
-    def endo_info(self,factor):
-        pass
-    
-    def decomp_length(self):
-        return len(self.decomp)
-    
-    def primeideal_display(self,prime_ideal):
-        ans = '($ {0} $'.format(self.p)
-        if prime_ideal == ['0']:
-            ans += ')'
-            return ans
-        else:
-            ans += ',' + web_latex(coeff_to_poly(prime_ideal,'pi')) + ')'
-            return ans
-
-    def factor_display(self,factor):
-        return av_display_knowl(factor)
-    
-    def invariants_display(self):
-        invariants = self.brauer_invs.split(' ')
-        num_primes = len(invariants) // self.decomp_length()
-        return [(self.places[i], invariants[num_primes*i:num_primes*(i+1)]) for i in range(self.decomp_length())]
-
     def basechange_display(self):
         models = self.prim_models
         if len(models) == 0:
